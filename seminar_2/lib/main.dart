@@ -1,245 +1,121 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-/* Lay out a widget */
-/* 1, 2 */
-// void main() {
-//   runApp(const Center(
-//       child: Text(
-//         'Hello, world!',
-//         textDirection: TextDirection.ltr,
-//       ),
-//     ),
-//   );
-// }
-
-/* 3 */
-// void main() {
-//   runApp(const MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//       return const MaterialApp(
-//       home: Icon(
-//         Icons.star,
-//         color: Colors.red,
-//       ),
-//     );
-//   }
-// }
-
-/* 4 */
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     /* Material app */
-//     // return MaterialApp(
-//     //   title: 'Flutter layout demo',
-//     //   home: Scaffold(
-//     //     appBar: AppBar(
-//     //       title: const Text('Flutter layout demo'),
-//     //     ),
-//     //     body: const Center(
-//     //       child: Text('Hello World'),
-//     //     ),
-//     //   ),
-//     // );
-//     /* Non-Material app */
-//     return Container(
-//       decoration: const BoxDecoration(color: Colors.white),
-//       child: const Center(
-//         child: Text( // child는 하나만 넣을 수 있고, row나 column을 열어서 multiple children을 넣을 수 있는 듯
-//           'Hello World',
-//           textDirection: TextDirection.ltr,
-//           style: TextStyle(
-//             fontSize: 32,
-//             color: Colors.black87,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-/* Lay out multiple widgets vertically and horizontally */
 void main() {
-  debugPaintSizeEnabled = true;
+  debugPaintSizeEnabled = false;
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return MaterialApp(
-  //     home: Scaffold(
-  //       appBar: AppBar(),
-  //       body: 
-  //       Column(children: [
-  //         Row(
-  //           // children: [
-  //           //   Column(
-  //           //     children: const [
-  //           //       Center(child: Text('text1', style: TextStyle(fontSize: 23.0), textAlign: TextAlign.center,),),
-  //           //       SizedBox(width: 100, height: 50),
-  //           //     ],
-  //           //   ),
-  //           // ],
-  //           /* Sizing Widgets */
-  //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //           children: [
-  //             Expanded(
-  //               child: Image.asset('images/damgom.JPG')
-  //               ),
-  //             Expanded(
-  //               flex: 2,
-  //               child: Image.asset('images/haebojago.jpg')
-  //               ),
-  //             Expanded(
-  //               child: Image.asset('images/qoo.png')
-  //               ),
-  //             ],
-  //           ),
-  //           Row(
-  //             mainAxisSize: MainAxisSize.min, // 얘는 대체 뭥미.. row를 가장 작은 크기로 쓴다는 것인가
-  //             // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //             children: [
-  //               Icon(Icons.star, color: Colors.green[500]), // 왜 얘는 const가 안 붙는가
-  //               Icon(Icons.star, color: Colors.green[500]),
-  //               Icon(Icons.star, color: Colors.green[500]),
-  //               const Icon(Icons.star, color: Colors.black),
-  //               const Icon(Icons.star, color: Colors.black),
-  //             ],
-  //           )
-  //         ],
-  //       )
-  //     )
-  //   );
-  // }
-
-  /* Nesting rows and columns */
   @override
   Widget build(BuildContext context) {
-    var stars = Row(
-      mainAxisSize: MainAxisSize.min,
+    Widget titleSection = Container(
+      padding: const EdgeInsets.all(32),
+      child: Row(
+        children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: const Text(
+                  'Oeschinen Lake Campground',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+              ),
+              const Text(
+                  'Kandersteg, Switzerland',
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
+                )
+            ]
+          )),
+          Icon(
+            Icons.star,
+            color: Colors.red[500]
+            ),
+          const Text('41')
+        ],
+      )
+    );
+
+    Color color = Theme.of(context).primaryColor;
+
+    Widget buttonSection = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Icon(Icons.star, color: Colors.green[500]),
-        Icon(Icons.star, color: Colors.green[500]),
-        Icon(Icons.star, color: Colors.green[500]),
-        const Icon(Icons.star, color: Colors.black),
-        const Icon(Icons.star, color: Colors.black),
+        _buildButtonColumn(color, Icons.call, 'CALL'),
+        _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
+        _buildButtonColumn(color, Icons.share, 'SHARE'),
       ],
     );
 
-    final ratings = Container(
-      padding: const EdgeInsets.all(20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          stars,
-          const Text(
-            '170 Reviews',
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.w800,
-              fontFamily: 'Roboto',
-              letterSpacing: 0.5,
-              fontSize: 20,
-            ),
-          ),
-        ],
+    Widget textSection = const Padding(
+      padding: EdgeInsets.all(32),
+      child: Text(
+        'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
+      'Alps. Situated 1,578 meters above sea level, it is one of the '
+      'larger Alpine Lakes. A gondola ride from Kandersteg, followed by a '
+      'half-hour walk through pastures and pine forest, leads you to the '
+      'lake, which warms to 20 degrees Celsius in the summer. Activities '
+      'enjoyed here include rowing, and riding the summer toboggan run.',
+      softWrap: true, // line break
       ),
     );
 
-    const descTextStyle = TextStyle( // textstyle 통일
-      color: Colors.black,
-      fontWeight: FontWeight.w800,
-      fontFamily: 'Roboto',
-      letterSpacing: 0.5,
-      fontSize: 18,
-      height: 2,
-    );
-
-    // DefaultTextStyle.merge() allows you to create a default text
-    // style that is inherited by its child and all subsequent children.
-    final iconList = DefaultTextStyle.merge(
-      style: descTextStyle,
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        child: Row( // row 안에
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [ // icon + text들 column으로 묶어서 3개 넣기
-            Column(
-              children: [
-                Icon(Icons.kitchen, color: Colors.green[500]),
-                const Text('PREP:'),
-                const Text('25 min'),
-              ],
-            ),
-            Column(
-              children: [
-                Icon(Icons.timer, color: Colors.green[500]),
-                const Text('COOK:'),
-                const Text('1 hr'),
-              ],
-            ),
-            Column(
-              children: [
-                Icon(Icons.restaurant, color: Colors.green[500]),
-                const Text('FEEDS:'),
-                const Text('4-6'),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-
-    final leftColumn = Container(
-      // decoration: const BoxDecoration( // Container decoration
-      //       color: Colors.red,
-      // ),
-      padding: const EdgeInsets.fromLTRB(20, 30, 20, 20), // 왼쪽 container 만들고 padding 넣기
-      child: Column(
-        children: [
-          ratings,
-          iconList,
-        ],
-      ),
-    );
-    
     return MaterialApp(
+      title: 'Flutter layout demo',
       home: Scaffold(
-        appBar: AppBar(),
-        body: Center(
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(0, 40, 0, 30),
-          height: 600,
-          child: Card(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 440, // box size 고정
-                  child: leftColumn,
-                ),
-              ],
+        appBar: AppBar(
+          title: const Text('Flutter layout demo'),
+        ),
+        // body: const Center(
+        //   child: Text('Hello World'),
+        // ),
+        // body: Column(
+        body: ListView( // app body scrolling을 지원하는 ListView로 변경
+          children: [
+            Image.asset(
+              'images/qoo.png',
+              width: 600,
+              height: 240,
+              fit: BoxFit.cover, // 사진이 공간을 꽉 채우게 할 것인지
+            ),
+            titleSection,
+            buttonSection,
+            textSection
+          ],
+        )
+      ),
+    );
+  }
+
+  // 이게 뒤에 있어도 동작하는군? icon row 만들기 함수 하나로 통합되었다
+  Column _buildButtonColumn(Color color, IconData icon, String label) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(icon, color: color),
+        Container(
+          margin: const EdgeInsets.only(top: 8),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              color: color,
             ),
           ),
         ),
-      ),
-      )
+      ],
     );
   }
 
 }
-
-
-      
